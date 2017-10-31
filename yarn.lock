@@ -2329,9 +2329,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flow-bin@^0.57.3:
-  version "0.57.3"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.57.3.tgz#843fb80a821b6d0c5847f7bb3f42365ffe53b27b"
+flow-bin@^0.49.1:
+  version "0.49.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.49.1.tgz#c9e456b3173a7535a4ffaf28956352c63bb8e3e9"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -4941,10 +4941,6 @@ react-test-renderer@16.0.0-alpha.12:
   dependencies:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
-
-react-thunk@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-thunk/-/react-thunk-1.0.0.tgz#79813d47f31147e81aee841ed5e76a9e3eabc8b1"
 
 react-timer-mixin@^0.13.2:
   version "0.13.3"
