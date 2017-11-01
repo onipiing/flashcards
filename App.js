@@ -9,7 +9,6 @@ import reducer from "./reducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-
 const store = createStore(
   reducer,
   composeEnhancers(applyMiddleware(thunk, logger))
@@ -20,9 +19,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Text>hreeel to start working on your app!</Text>
-          <Text>Changes you make will automatically reload.</Text>
-          <Text>Shake your phone to open the developer menu.</Text>
+          <h1>hello</h1>
         </View>
       </Provider>
     );
