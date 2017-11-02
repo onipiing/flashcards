@@ -1,7 +1,12 @@
 // @flow
 import React from "react";
 import { Provider } from "react-redux";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Platform, StatusBar } from "react-native";
+import { TabNavigator, StackNavigator } from "react-navigation";
+import { teal, white } from "./utils/colors";
+import { Constants } from "expo";
+import DeckListView from "./components/DeckListView";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStore, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
@@ -14,12 +19,50 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk, logger))
 );
 
+function MobileflashcardStatusBar({ backgroundColor, ...props }) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  );
+}
+
+const Tabs = TabNavigator(
+  {
+    DeckListView: {
+      screen: DeckListView,
+      navigationOptions: {
+        tabBarLabel: "Decks"
+      }
+    }
+  },
+  {
+    navigationOptions: {
+      header: null
+    },
+    tabBarOptions: {
+      activeTintColor: Platform.OS === "ios" ? teal : white,
+      style: {
+        height: 56,
+        backgroundColor: Platform.OS === "ios" ? white : teal,
+        shadowColor: "rgba(0, 0, 0, 0.24)",
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowRadius: 6,
+        shadowOpacity: 1
+      }
+    }
+  }
+);
+
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <h1>hello</h1>
+        <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+          <StatusBar translucent backgroundColor={backgroundColor} {...props} />
         </View>
       </Provider>
     );
