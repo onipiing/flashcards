@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 import { teal, white } from "../utils/colors";
 
-export default class DeckListView extends React.Component {
+class DeckListView extends React.Component {
   render() {
     return (
       <View>
@@ -12,3 +12,5 @@ export default class DeckListView extends React.Component {
     );
   }
 }
+
+export default DeckListView;
