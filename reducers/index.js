@@ -5,8 +5,7 @@ function getDecks(state = {}, action) {
     case GET_DECKS:
       return {
         ...state,
-        ...action,
-        decks
+        ...action.dekcs
       };
   }
 }
