@@ -61,8 +61,12 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-          <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+        <View style={{ flex: 1 }}>
+          <MobileflashcardStatusBar
+            backgroundColor={teal}
+            barStyle="light-content"
+          />
+          <Tabs />
         </View>
       </Provider>
     );
