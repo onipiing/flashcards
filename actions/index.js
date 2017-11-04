@@ -1,3 +1,4 @@
+import * as api from "../utils/api";
 export const GET_DECKS = "GET_DECKS";
 
 export function getDecks(decks) {
@@ -6,3 +7,6 @@ export function getDecks(decks) {
     decks
   };
 }
+
+export const fetchDecks = () => dispatch =>
+  api.fetchDecks().then(decks => dispatch(getDecks(decks)));
