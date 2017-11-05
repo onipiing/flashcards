@@ -1,3 +1,4 @@
+// @flow
 import * as api from "../utils/api";
 export const GET_DECKS = "GET_DECKS";
 
