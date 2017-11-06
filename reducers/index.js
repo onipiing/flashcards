@@ -1,13 +1,13 @@
 import { GET_DECKS } from "../actions";
 
-function getDecks(state = {}, action) {
-  switch (action.tpe) {
+function receiveDecks(state = {}, action) {
+  switch (action.type) {
     case GET_DECKS:
       return {
         ...state,
-        ...action.dekcs
+        ...action.decks
       };
   }
 }
 
-export default getDecks;
+export default receiveDecks;
