@@ -6,6 +6,7 @@ import { TabNavigator, StackNavigator } from "react-navigation";
 import { teal, white } from "./utils/colors";
 import { Constants } from "expo";
 import DeckListView from "./components/DeckListView";
+import NewDeckView from "./components/NewDeckView";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStore, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
@@ -33,6 +34,12 @@ const Tabs = TabNavigator(
       screen: DeckListView,
       navigationOptions: {
         tabBarLabel: "Decks"
+      }
+    },
+    NewDeckView: {
+      screen: NewDeckView,
+      navigationOptions: {
+        tabBarLabel: "Add Deck"
       }
     }
   },
