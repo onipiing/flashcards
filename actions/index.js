@@ -1,6 +1,7 @@
 // @flow
 import * as api from "../utils/api";
 export const GET_DECKS = "GET_DECKS";
+export const ADD_DECK = "ADD_DECK";
 
 export function getDecks(decks) {
   return {
@@ -11,3 +12,13 @@ export function getDecks(decks) {
 
 export const fetchDecks = () => dispatch =>
   api.fetchDecks().then(decks => dispatch(getDecks(decks)));
+
+export function addNewDeck(decks) {
+  return {
+    type: ADD_DECK,
+    decks
+  };
+}
+
+export const addDeck = () => dispatch =>
+  api.addDeck().then(decks => dispatch(addNewDeck(decks)));
