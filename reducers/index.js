@@ -1,8 +1,13 @@
-import { GET_DECKS } from "../actions";
+import { GET_DECKS, ADD_DECK } from "../actions";
 
 function receiveDecks(state = {}, action) {
   switch (action.type) {
     case GET_DECKS:
+      return {
+        ...state,
+        ...action.decks
+      };
+    case ADD_DECK:
       return {
         ...state,
         ...action.decks
