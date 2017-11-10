@@ -4,19 +4,49 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native";
+import { connect } from "react-redux";
+import { addDeck } from "../actions";
 
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
 //Set the width for the button
-const btnWidth = width - 40;
+const btnWidth = width - 50;
+const inputWidth = width - 20;
 
 class NewDeckView extends Component {
+  state = {
+    text: ""
+  };
+
+  onInputChange = text => this.setState({ text });
+
+  handleSubmit = () => {
+    const newDeck = {
+      [this.state.text]: { title: this.state.text, questions: [] }
+    };
+    this.props.addDeck(newDeck);
+    // TODO: hier komt de navigatie
+    this.setState({
+      text: ""
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.btn}>
+        <TextInput
+          style={styles.input}
+          value={this.state.text}
+          placeholder="Deck Title"
+          onChangeText={this.onInputChange}
+        />
+        <TouchableOpacity
+          onPress={() => this.handleSubmit()}
+          style={styles.btn}
+        >
           <Text style={styles.btnText}>Add Deck</Text>
         </TouchableOpacity>
       </View>
@@ -32,14 +62,20 @@ const styles = StyleSheet.create({
   },
   btn: {
     padding: 10,
-    borderRadius: 2,
+    borderRadius: 1,
     borderWidth: 2,
-    borderColor: "gray",
+    borderColor: "teal",
     width: btnWidth
   },
   btnText: {
     textAlign: "center"
+  },
+  input: {
+    width: inputWidth,
+    fontSize: 15,
+    padding: 10,
+    margin: 25
   }
 });
 
-export default NewDeckView;
+export default connect(null, { addDeck })(NewDeckView);
