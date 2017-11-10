@@ -20,5 +20,5 @@ export function addNewDeck(decks) {
   };
 }
 
-export const addDeck = () => dispatch =>
-  api.addDeck().then(decks => dispatch(addNewDeck(decks)));
+export const addDeck = data => dispatch =>
+  api.addDeck(data).then(decks => dispatch(addNewDeck(decks)));
