@@ -7,6 +7,7 @@ import { teal, white } from "./utils/colors";
 import { Constants } from "expo";
 import DeckListView from "./components/DeckListView";
 import NewDeckView from "./components/NewDeckView";
+import DeckView from "./components/DeckView";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStore, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
@@ -64,6 +65,21 @@ const Tabs = TabNavigator(
   }
 );
 
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs
+  },
+  DeckView: {
+    screen: DeckView,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: teal
+      }
+    }
+  }
+});
+
 export default class App extends React.Component {
   render() {
     return (
@@ -73,7 +89,7 @@ export default class App extends React.Component {
             backgroundColor={teal}
             barStyle="light-content"
           />
-          <Tabs />
+          <MainNavigator />
         </View>
       </Provider>
     );
