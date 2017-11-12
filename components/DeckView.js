@@ -28,11 +28,17 @@ class DeckView extends Component {
             .length} cards`}</Text>
 
           {/*TODO: Add components, and render them onPress*/}
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("NewQuestionView")}
+            style={styles.btn}
+          >
             <Text style={styles.btnText}>Add Card</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("QuizView")}
+            style={styles.btn}
+          >
             <Text style={styles.btnText}>Start Quiz</Text>
           </TouchableOpacity>
         </View>
