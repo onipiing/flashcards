@@ -8,6 +8,8 @@ import { Constants } from "expo";
 import DeckListView from "./components/DeckListView";
 import NewDeckView from "./components/NewDeckView";
 import DeckView from "./components/DeckView";
+import QuizView from "./components/QuizView";
+import NewQuestionView from "./components/NewQuestionView";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStore, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
@@ -71,7 +73,28 @@ const MainNavigator = StackNavigator({
   },
   DeckView: {
     screen: DeckView,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.deck.title}`,
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: teal
+      }
+    })
+  },
+  QuizView: {
+    screen: QuizView,
     navigationOptions: {
+      title: "Quiz",
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: teal
+      }
+    }
+  },
+  NewQuestionView: {
+    screen: NewQuestionView,
+    navigationOptions: {
+      title: "Add card",
       headerTintColor: white,
       headerStyle: {
         backgroundColor: teal
