@@ -28,7 +28,10 @@ class NewDeckView extends Component {
       [this.state.text]: { title: this.state.text, questions: [] }
     };
     this.props.addDeck(newDeck);
-    // TODO: hier komt de navigatie
+    console.log(newDeck[this.state.text]);
+    this.props.navigation.navigate("DeckView", {
+      deck: newDeck[this.state.text]
+    });
     this.setState({
       text: ""
     });
