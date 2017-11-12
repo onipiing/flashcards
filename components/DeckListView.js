@@ -1,12 +1,16 @@
 // @flow
 
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 import { connect } from "react-redux";
 import { fetchDecks } from "../actions";
 import { teal, white, gray } from "../utils/colors";
-
-import { setDummyData } from "../utils/_InitialData";
 
 class DeckListView extends React.Component {
   componentDidMount() {
@@ -16,19 +20,25 @@ class DeckListView extends React.Component {
   renderItem = ({ item }) => {
     return (
       <View>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.cardCount}>{`${item.questions.length} cards`}</Text>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate("DeckView", {
+              deck: item
+            })}
+        >
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.cardCount}>{`${item.questions
+            .length} cards`}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
 
   render() {
-    const decks = Object.values(this.props.decks);
-
     return (
       <View style={styles.container}>
         <FlatList
-          data={decks}
+          data={this.props.decks && Object.values(this.props.decks)}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => item.title}
         />
