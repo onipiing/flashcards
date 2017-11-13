@@ -75,6 +75,10 @@ const MainNavigator = StackNavigator({
     screen: DeckView,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.deck.title}`,
+      headerTitleStyle: {
+        alignSelf: "center"
+      },
+      headerRight: <View />,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: teal
@@ -85,6 +89,10 @@ const MainNavigator = StackNavigator({
     screen: QuizView,
     navigationOptions: {
       title: "Quiz",
+      headerTitleStyle: {
+        alignSelf: "center"
+      },
+      headerRight: <View />,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: teal
@@ -95,6 +103,10 @@ const MainNavigator = StackNavigator({
     screen: NewQuestionView,
     navigationOptions: {
       title: "Add card",
+      headerTitleStyle: {
+        alignSelf: "center"
+      },
+      headerRight: <View />,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: teal
