@@ -7,4 +7,11 @@ export function fetchDecks() {
 }
 
 export const addDeck = newDeck =>
-AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(newDeck)).then(data => newDeck)
+  AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(newDeck)).then(
+    data => newDeck
+  );
+
+export const addCard = deck =>
+  AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck)).then(
+    data => deck
+  );
