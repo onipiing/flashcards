@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Text,
   View,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { teal, white, gray } from "../utils/colors";
+import { getDecks } from "../actions";
 
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
@@ -15,9 +17,16 @@ const { width } = Dimensions.get("window");
 const btnWidth = width - 50;
 
 class DeckView extends Component {
+  componentDidMount() {
+    this.props.getDecks;
+  }
+
   render() {
-    console.log(this.props);
-    const { deck } = this.props.navigation.state.params;
+    //Get the deck title from navigation params
+    const { title } = this.props.navigation.state.params.deck;
+    console.log(title);
+    //Use the deck title to get the deck from the Redux Store.
+    const deck = this.props.decks[title];
     if (!deck) {
       return null;
     } else {
@@ -29,7 +38,8 @@ class DeckView extends Component {
 
           {/*TODO: Add components, and render them onPress*/}
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("NewQuestionView")}
+            onPress={() =>
+              this.props.navigation.navigate("NewQuestionView", { deck })}
             style={styles.btn}
           >
             <Text style={styles.btnText}>Add Card</Text>
@@ -75,4 +85,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DeckView;
+const mapStateToProps = state => ({
+  decks: state
+});
+
+export default connect(mapStateToProps, { getDecks })(DeckView);
