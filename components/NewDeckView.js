@@ -24,17 +24,19 @@ class NewDeckView extends Component {
   onInputChange = text => this.setState({ text });
 
   handleSubmit = () => {
-    const newDeck = {
-      [this.state.text]: { title: this.state.text, questions: [] }
-    };
-    this.props.addDeck(newDeck);
-    console.log(newDeck[this.state.text]);
-    this.props.navigation.navigate("DeckView", {
-      deck: newDeck[this.state.text]
-    });
-    this.setState({
-      text: ""
-    });
+    if (this.state.text !== "") {
+      const newDeck = {
+        [this.state.text]: { title: this.state.text, questions: [] }
+      };
+      this.props.addDeck(newDeck);
+      console.log(newDeck[this.state.text]);
+      this.props.navigation.navigate("DeckView", {
+        deck: newDeck[this.state.text]
+      });
+      this.setState({
+        text: ""
+      });
+    }
   };
 
   render() {
