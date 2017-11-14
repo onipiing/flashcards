@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -9,6 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { teal, white, gray } from "../utils/colors";
+import { addCard } from "../actions";
 
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
@@ -18,23 +20,49 @@ const inputWidth = width - 20;
 
 class NewQuestionView extends Component {
   state = {
-    text: ""
+    question: "",
+    answer: ""
   };
 
-  onInputChange = text => this.setState({ text });
+  onInputQuestion = question => this.setState({ question });
 
-  handleSubmit = () => {};
+  onInputAnswer = answer => this.setState({ answer });
+
+  handleSubmit = () => {
+    //TODO: Only submit when formfields contain data.
+    const { deck } = this.props.navigation.state.params;
+    const updatedDeck = {
+      [deck.title]: {
+        title: deck.title,
+        questions: [
+          {
+            question: this.state.question,
+            answer: this.state.answer
+          },
+          ...deck.questions
+        ]
+      }
+    };
+    console.log(updatedDeck);
+    this.props.addCard(updatedDeck);
+    this.props.navigation.navigate("DeckView", {
+      deck
+    });
+  };
 
   render() {
+    //TODO: Add form validation
+    console.log(this.state);
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <TextInput
-          onChangeText={this.onInputChange}
+          onChangeText={this.onInputQuestion}
           style={styles.input}
           placeholder="Add Question"
         />
         <TextInput
-          onChangeText={this.onInputChange}
+          onChangeText={this.onInputAnswer}
           style={styles.input}
           placeholder="Add answer"
         />
@@ -73,4 +101,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewQuestionView;
+export default connect(null, { addCard })(NewQuestionView);
