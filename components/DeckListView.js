@@ -9,11 +9,14 @@ import {
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { fetchDecks } from "../actions";
 import { teal, white, gray } from "../utils/colors";
+import { clearAll } from "../utils/api";
 
 class DeckListView extends React.Component {
   componentDidMount() {
+    //clearAll();
     this.props.fetchDecks();
   }
 
@@ -37,6 +40,13 @@ class DeckListView extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {this.props.decks &&
+          Object.keys(this.props.decks).length === 0 && (
+            <Text style={styles.title}>
+              No Decks available, please add a deck!
+            </Text>
+          )}
+          <FontAwesome name="plus-square-o" size={30} color={tintColor} />
         <FlatList
           data={this.props.decks && Object.values(this.props.decks)}
           renderItem={this.renderItem}
