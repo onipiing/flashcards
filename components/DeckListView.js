@@ -6,13 +6,22 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { fetchDecks } from "../actions";
 import { teal, white, gray } from "../utils/colors";
 import { clearAll } from "../utils/api";
+import { width, btnWidth } from "../utils/helpers";
+
+/*
+//Get the screenwidth of the device
+const { width } = Dimensions.get("window");
+//Set the width for the button
+const btnWidth = width - 50;
+*/
 
 class DeckListView extends React.Component {
   componentDidMount() {
@@ -42,11 +51,19 @@ class DeckListView extends React.Component {
       <View style={styles.container}>
         {this.props.decks &&
           Object.keys(this.props.decks).length === 0 && (
-            <Text style={styles.title}>
-              No Decks available, please add a deck!
-            </Text>
+            <View>
+              <Text style={styles.title}>
+                No Decks available, please add a deck!
+              </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("NewDeckView")}
+                style={styles.btn}
+              >
+                <Text style={styles.btnText}>Add Deck</Text>
+              </TouchableOpacity>
+            </View>
           )}
-          <FontAwesome name="plus-square-o" size={30} color={tintColor} />
+
         <FlatList
           data={this.props.decks && Object.values(this.props.decks)}
           renderItem={this.renderItem}
@@ -65,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 20
+    marginTop: 100
   },
   title: {
     fontSize: 18,
@@ -75,6 +92,18 @@ const styles = StyleSheet.create({
     color: gray,
     textAlign: "center",
     marginBottom: 15
+  },
+  btn: {
+    padding: 10,
+    borderRadius: 1,
+    borderWidth: 2,
+    borderColor: "teal",
+    width: btnWidth,
+    marginBottom: 8,
+    marginTop: 30
+  },
+  btnText: {
+    textAlign: "center"
   }
 });
 
