@@ -3,6 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { StyleSheet, Text, View, Platform, StatusBar } from "react-native";
 import { TabNavigator, StackNavigator } from "react-navigation";
+import { setLocalNotification } from "./utils/helpers";
 import { teal, white } from "./utils/colors";
 import { Constants } from "expo";
 import DeckListView from "./components/DeckListView";
@@ -10,7 +11,6 @@ import NewDeckView from "./components/NewDeckView";
 import DeckView from "./components/DeckView";
 import QuizView from "./components/QuizView";
 import NewQuestionView from "./components/NewQuestionView";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStore, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
@@ -116,6 +116,10 @@ const MainNavigator = StackNavigator({
 });
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={store}>
