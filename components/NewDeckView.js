@@ -9,19 +9,25 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { addDeck } from "../actions";
+import { width, btnWidth, inputWidth } from "../utils/helpers";
+import { red } from "../utils/colors";
 
+//TODO: test and cleanup
+/*
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
 //Set the width for the button
 const btnWidth = width - 50;
 const inputWidth = width - 20;
+*/
 
 class NewDeckView extends Component {
   state = {
-    text: ""
+    text: "",
+    errorMessage: ""
   };
 
-  onInputChange = text => this.setState({ text });
+  onInputChange = text => this.setState({ text, errorMessage: "" });
 
   handleSubmit = () => {
     if (this.state.text !== "") {
@@ -34,8 +40,11 @@ class NewDeckView extends Component {
         deck: newDeck[this.state.text]
       });
       this.setState({
-        text: ""
+        text: "",
+        errorMessage: ""
       });
+    } else {
+      this.setState({ errorMessage: "Please fill in a title for your deck" });
     }
   };
 
@@ -48,6 +57,9 @@ class NewDeckView extends Component {
           placeholder="Deck Title"
           onChangeText={this.onInputChange}
         />
+        <View>
+          <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+        </View>
         <TouchableOpacity
           onPress={() => this.handleSubmit()}
           style={styles.btn}
@@ -70,7 +82,8 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     borderWidth: 2,
     borderColor: "teal",
-    width: btnWidth
+    width: btnWidth,
+    marginTop: 20
   },
   btnText: {
     textAlign: "center"
@@ -80,6 +93,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 10,
     margin: 25
+  },
+  errorMessage: {
+    color: red,
+    textAlign: "center"
   }
 });
 
