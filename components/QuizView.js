@@ -6,13 +6,17 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
-import { teal, white, gray } from "../utils/colors";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
+import { teal, white, gray, red } from "../utils/colors";
+
+//TODO: Distract width and btnWidth to separate file
+//TODO: Add form validation for inputfields!
 
 //Get the width of the screen
 const { width } = Dimensions.get("window");
 //Set the width of button
 
-const btnWidth = width - 30;
+const btnWidth = width - 50;
 
 class QuizView extends Component {
   state = {
@@ -93,10 +97,13 @@ class QuizView extends Component {
                 {`You answered ${this.state.correctAnswers} out of ${deck
                   .questions.length} questions correctly`}.
               </Text>
-              {/*Calculate the score to give the user feedback on how well he/she did*/}
+              {/*Calculate the score to give the user feedback on how well he/she did
+              and round the score to a whole (percentage) number*/}
               <Text style={styles.title}>
-                Your Score:
-                {`${this.state.correctAnswers / deck.questions.length * 100}%`}
+                {`Your Score: ${(this.state.correctAnswers /
+                  deck.questions.length *
+                  100
+                ).toFixed(0)}%`}
               </Text>
               {/*Display message for user based on the score they got*/}
               {this.state.correctAnswers / deck.questions.length < 0.6 && (
@@ -104,19 +111,38 @@ class QuizView extends Component {
                   <Text style={styles.message}>
                     You need some more practice!
                   </Text>
+                  <Entypo
+                    style={styles.icon}
+                    name="emoji-sad"
+                    size={50}
+                    color={red}
+                  />
                 </View>
               )}
               {this.state.correctAnswers / deck.questions.length > 0.8 &&
                 this.state.correctAnswers / deck.questions.length < 1 && (
                   <View>
                     <Text style={styles.message}>Well done!</Text>
+                    <Entypo
+                      style={styles.icon}
+                      name="emoji-happy"
+                      size={50}
+                      color={teal}
+                    />
                   </View>
                 )}
+
               {this.state.correctAnswers / deck.questions.length === 1 && (
                 <View>
                   <Text style={styles.message}>
                     Well done, you master all the material!
                   </Text>
+                  <Entypo
+                    style={styles.icon}
+                    name="emoji-happy"
+                    size={50}
+                    color={teal}
+                  />
                 </View>
               )}
 
@@ -207,7 +233,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     textAlign: "center",
-    paddingTop: 5
+    paddingTop: 5,
+    color: teal
   },
   btn: {
     width: btnWidth,
@@ -223,7 +250,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   shadow: {
-    borderColor: teal,
+    borderColor: "rgba(0, 128, 128, 0.5)",
     borderWidth: 1,
     elevation: 2,
     minHeight: 200,
@@ -235,6 +262,11 @@ const styles = StyleSheet.create({
   message: {
     textAlign: "center",
     fontSize: 18
+  },
+  icon: {
+    textAlign: "center",
+    fontSize: 50,
+    marginTop: 10
   }
 });
 
