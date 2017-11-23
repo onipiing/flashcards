@@ -3,8 +3,9 @@ import { Notifications, Permissions } from "expo";
 
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
-//Set the width for the button
+//Set the width for the button and inputfield
 const btnWidth = width - 50;
+const inputWidth = width - 20;
 
 const NOTIFICATION_KEY = "MobileFlashcards:notifications";
 
