@@ -9,14 +9,18 @@ import {
   Dimensions,
   TouchableOpacity
 } from "react-native";
+import { width, btnWidth, inputWidth } from "../utils/helpers";
 import { teal, white, gray } from "../utils/colors";
 import { addCard } from "../actions";
 
+//TODO: test and cleanup
+/*
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
 //Set the width for the button
 const btnWidth = width - 50;
 const inputWidth = width - 20;
+*/
 
 class NewQuestionView extends Component {
   state = {
@@ -43,6 +47,7 @@ class NewQuestionView extends Component {
         ]
       }
     };
+    //TODO: remove console.log statement here and in render
     console.log(updatedDeck);
     this.props.addCard(updatedDeck);
     this.props.navigation.navigate("DeckView", {
