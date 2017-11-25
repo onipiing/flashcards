@@ -2,10 +2,10 @@ import { AsyncStorage, Dimensions } from "react-native";
 import { Notifications, Permissions } from "expo";
 
 //Get the screenwidth of the device
-const { width } = Dimensions.get("window");
+export const { width } = Dimensions.get("window");
 //Set the width for the button and inputfield
-const btnWidth = width - 50;
-const inputWidth = width - 20;
+export const btnWidth = width - 50;
+export const inputWidth = width - 20;
 
 const NOTIFICATION_KEY = "MobileFlashcards:notifications";
 
