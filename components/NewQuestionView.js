@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { width, btnWidth, inputWidth } from "../utils/helpers";
-import { teal, white, gray } from "../utils/colors";
+import { teal, white, gray, red } from "../utils/colors";
 import { addCard } from "../actions";
 
 //TODO: test and cleanup
@@ -25,34 +25,62 @@ const inputWidth = width - 20;
 class NewQuestionView extends Component {
   state = {
     question: "",
-    answer: ""
+    answer: "",
+    errorMessageQ: "",
+    errorMessageA: "",
+    colorQ: teal,
+    colorA: teal
   };
 
-  onInputQuestion = question => this.setState({ question });
+  onInputQuestion = question =>
+    this.setState({ question, errorMessageQ: "", colorQ: teal });
 
-  onInputAnswer = answer => this.setState({ answer });
+  onInputAnswer = answer =>
+    this.setState({ answer, errorMessageA: "", colorA: teal });
 
   handleSubmit = () => {
     //TODO: Only submit when formfields contain data.
-    const { deck } = this.props.navigation.state.params;
-    const updatedDeck = {
-      [deck.title]: {
-        title: deck.title,
-        questions: [
-          {
-            question: this.state.question,
-            answer: this.state.answer
-          },
-          ...deck.questions
-        ]
-      }
-    };
-    //TODO: remove console.log statement here and in render
-    console.log(updatedDeck);
-    this.props.addCard(updatedDeck);
-    this.props.navigation.navigate("DeckView", {
-      deck
-    });
+    if (this.state.question !== "" && this.state.answer !== "") {
+      const { deck } = this.props.navigation.state.params;
+      const updatedDeck = {
+        [deck.title]: {
+          title: deck.title,
+          questions: [
+            {
+              question: this.state.question,
+              answer: this.state.answer
+            },
+            ...deck.questions
+          ]
+        }
+      };
+
+      this.props.addCard(updatedDeck);
+      this.props.navigation.navigate("DeckView", {
+        deck
+      });
+      this.setState({
+        question: "",
+        answer: ""
+      });
+    } else if (this.state.question === "" && this.state.answer === "") {
+      this.setState({
+        errorMessageA: "Please fill in an answer!",
+        errorMessageQ: "Please fill in a question",
+        colorQ: red,
+        colorA: red
+      });
+    } else if (this.state.answer == "") {
+      this.setState({
+        errorMessageA: "Please fill in an answer!",
+        colorA: red
+      });
+    } else {
+      this.setState({
+        errorMessageQ: "Please fill in a question!",
+        colorQ: red
+      });
+    }
   };
 
   render() {
@@ -65,12 +93,20 @@ class NewQuestionView extends Component {
           onChangeText={this.onInputQuestion}
           style={styles.input}
           placeholder="Add Question"
+          underlineColorAndroid={this.state.colorQ}
         />
+        <View>
+          <Text style={styles.errorMessage}>{this.state.errorMessageQ}</Text>
+        </View>
         <TextInput
           onChangeText={this.onInputAnswer}
           style={styles.input}
           placeholder="Add answer"
+          underlineColorAndroid={this.state.colorA}
         />
+        <View>
+          <Text style={styles.errorMessage}>{this.state.errorMessageA}</Text>
+        </View>
         <TouchableOpacity
           onPress={() => this.handleSubmit()}
           style={styles.btn}
@@ -103,6 +139,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 10,
     margin: 25
+  },
+  errorMessage: {
+    color: red,
+    textAlign: "center"
   }
 });
 
