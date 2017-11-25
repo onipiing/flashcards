@@ -16,17 +16,6 @@ import {
 } from "../utils/helpers";
 import { teal, white, gray, red, tealLight } from "../utils/colors";
 
-//TODO: Distract width and btnWidth to separate file
-//TODO: Add form validation for inputfields!
-
-/*
-//Get the width of the screen
-const { width } = Dimensions.get("window");
-//Set the width of button
-
-const btnWidth = width - 50;
-*/
-
 class QuizView extends Component {
   state = {
     selectedQuestion: 0,
@@ -351,9 +340,6 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   flipCardBack: {
-    /*backgroundColor: "red",
-    position: "absolute",
-    top: 0*/
     borderRadius: 2,
     borderColor: teal,
     borderWidth: 1,

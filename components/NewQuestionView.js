@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -12,15 +11,6 @@ import {
 import { width, btnWidth, inputWidth } from "../utils/helpers";
 import { teal, white, gray, red } from "../utils/colors";
 import { addCard } from "../actions";
-
-//TODO: test and cleanup
-/*
-//Get the screenwidth of the device
-const { width } = Dimensions.get("window");
-//Set the width for the button
-const btnWidth = width - 50;
-const inputWidth = width - 20;
-*/
 
 class NewQuestionView extends Component {
   state = {
@@ -39,7 +29,6 @@ class NewQuestionView extends Component {
     this.setState({ answer, errorMessageA: "", colorA: teal });
 
   handleSubmit = () => {
-    //TODO: Only submit when formfields contain data.
     if (this.state.question !== "" && this.state.answer !== "") {
       const { deck } = this.props.navigation.state.params;
       const updatedDeck = {
@@ -84,9 +73,6 @@ class NewQuestionView extends Component {
   };
 
   render() {
-    //TODO: Add form validation
-    console.log(this.state);
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <TextInput

@@ -12,15 +12,6 @@ import { addDeck } from "../actions";
 import { width, btnWidth, inputWidth } from "../utils/helpers";
 import { red, teal } from "../utils/colors";
 
-//TODO: test and cleanup
-/*
-//Get the screenwidth of the device
-const { width } = Dimensions.get("window");
-//Set the width for the button
-const btnWidth = width - 50;
-const inputWidth = width - 20;
-*/
-
 class NewDeckView extends Component {
   state = {
     text: "",

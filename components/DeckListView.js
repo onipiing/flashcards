@@ -1,5 +1,3 @@
-// @flow
-
 import React from "react";
 import {
   View,
@@ -16,13 +14,6 @@ import { teal, white, gray } from "../utils/colors";
 import { clearAll } from "../utils/api";
 import { width, btnWidth } from "../utils/helpers";
 
-/*
-//Get the screenwidth of the device
-const { width } = Dimensions.get("window");
-//Set the width for the button
-const btnWidth = width - 50;
-*/
-
 class DeckListView extends React.Component {
   componentDidMount() {
     //clearAll();
@@ -36,11 +27,13 @@ class DeckListView extends React.Component {
           onPress={() =>
             this.props.navigation.navigate("DeckView", {
               deck: item
-            })}
+            })
+          }
         >
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.cardCount}>{`${item.questions
-            .length} cards`}</Text>
+          <Text style={styles.cardCount}>{`${
+            item.questions.length
+          } cards`}</Text>
         </TouchableOpacity>
       </View>
     );

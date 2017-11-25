@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -12,14 +11,6 @@ import { teal, white, gray } from "../utils/colors";
 import { width, btnWidth } from "../utils/helpers";
 import { getDecks } from "../actions";
 
-//TODO: test and cleanup
-/*
-//Get the screenwidth of the device
-const { width } = Dimensions.get("window");
-//Set the width for the button
-const btnWidth = width - 50;
-*/
-
 class DeckView extends Component {
   componentDidMount() {
     this.props.getDecks;
@@ -28,7 +19,6 @@ class DeckView extends Component {
   render() {
     //Get the deck title from navigation params
     const { title } = this.props.navigation.state.params.deck;
-    console.log(title);
     //Use the deck title to get the deck from the Redux Store.
     const deck = this.props.decks[title];
     if (!deck) {
