@@ -4,19 +4,28 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Animated
 } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
-import { teal, white, gray, red } from "../utils/colors";
+import {
+  setLocalNotification,
+  clearLocalNotifications,
+  width,
+  btnWidth
+} from "../utils/helpers";
+import { teal, white, gray, red, tealLight } from "../utils/colors";
 
 //TODO: Distract width and btnWidth to separate file
 //TODO: Add form validation for inputfields!
 
+/*
 //Get the width of the screen
 const { width } = Dimensions.get("window");
 //Set the width of button
 
 const btnWidth = width - 50;
+*/
 
 class QuizView extends Component {
   state = {
@@ -25,20 +34,71 @@ class QuizView extends Component {
     correctAnswers: 0
   };
 
+  componentWillMount() {
+    this.animatedValue = new Animated.Value(0);
+    this.value = 0;
+    this.animatedValue.addListener(({ value }) => {
+      this.value = value;
+    });
+    this.frontInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ["0deg", "180deg"]
+    });
+    this.backInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ["180deg", "360deg"]
+    });
+    this.frontOpacity = this.animatedValue.interpolate({
+      inputRange: [89, 90],
+      outputRange: [1, 0]
+    });
+    this.backOpacity = this.animatedValue.interpolate({
+      inputRange: [89, 90],
+      outputRange: [0, 1]
+    });
+  }
+
   //Handles changing from question to answer or vica versa.
   handleClick = () => {
+    //Use useNativeDriver to improve performance, by moving task to native
     this.setState({ showAnswer: !this.state.showAnswer });
+    if (this.value >= 90) {
+      Animated.spring(this.animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true
+      }).start();
+    } else {
+      Animated.spring(this.animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true
+      }).start();
+    }
   };
 
   //Keeps tracks of the number of correct answer given
   correctAnswers = () => {
-    this.setState({ correctAnswers: this.state.correctAnswers + 1 });
+    this.setState({
+      correctAnswers: this.state.correctAnswers + 1
+    });
     this.nextQuestion();
   };
 
   //Keeps tracks of which question should be displayed next
   nextQuestion = () => {
-    this.setState({ selectedQuestion: this.state.selectedQuestion + 1 });
+    this.setState({
+      selectedQuestion: this.state.selectedQuestion + 1,
+      showAnswer: false
+    });
+    this.animatedValue.setValue(0);
+    const { deck } = this.props.navigation.state.params;
+    //Check if quiz is completed. If so, clear notifications.
+    if (deck.questions.length - 1 <= this.state.selectedQuestion) {
+      clearLocalNotifications().then(setLocalNotification());
+    }
   };
 
   //Clears the values for the number of correct answers and the question that
@@ -52,6 +112,14 @@ class QuizView extends Component {
 
   render() {
     const { deck } = this.props.navigation.state.params;
+    const frontAnimatedStyle = {
+      opacity: this.frontOpacity,
+      transform: [{ rotateY: this.frontInterpolate }]
+    };
+    const backAnimatedStyle = {
+      opacity: this.backOpacity,
+      transform: [{ rotateY: this.backInterpolate }]
+    };
     return (
       <View style={styles.container}>
         {/*Display the number of questions answered, and the total number of questions,
@@ -78,7 +146,8 @@ class QuizView extends Component {
                 onPress={() =>
                   this.props.navigation.navigate("DeckView", {
                     deck
-                  })}
+                  })
+                }
               >
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Go Back</Text>
@@ -94,13 +163,15 @@ class QuizView extends Component {
             <View>
               <Text style={styles.correct}>
                 {/*Give the user feedback on the number of questions answered correctly*/}
-                {`You answered ${this.state.correctAnswers} out of ${deck
-                  .questions.length} questions correctly`}.
+                {`You answered ${this.state.correctAnswers} out of ${
+                  deck.questions.length
+                } questions correctly`}.
               </Text>
               {/*Calculate the score to give the user feedback on how well he/she did
               and round the score to a whole (percentage) number*/}
-              <Text style={styles.title}>
-                {`Your Score: ${(this.state.correctAnswers /
+              <Text style={styles.score}>
+                {`Your Score: ${(
+                  this.state.correctAnswers /
                   deck.questions.length *
                   100
                 ).toFixed(0)}%`}
@@ -155,7 +226,8 @@ class QuizView extends Component {
                 onPress={() =>
                   this.props.navigation.navigate("DeckView", {
                     deck
-                  })}
+                  })
+                }
               >
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Back</Text>
@@ -170,23 +242,25 @@ class QuizView extends Component {
                 <View key={question.question}>
                   {/*Check if we need to display the question or the answer*/}
                   {!this.state.showAnswer ? (
-                    <View style={styles.shadow}>
+                    <Animated.View style={[styles.shadow, frontAnimatedStyle]}>
                       <Text style={styles.title}>{question.question}</Text>
                       <TouchableOpacity onPress={() => this.handleClick()}>
                         <View>
-                          <Text style={styles.text}>Answer</Text>
+                          <Text style={styles.text}>Show Answer</Text>
                         </View>
                       </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                   ) : (
-                    <View style={styles.shadow}>
+                    <Animated.View
+                      style={[backAnimatedStyle, styles.flipCardBack]}
+                    >
                       <Text style={styles.title}>{question.answer}</Text>
                       <TouchableOpacity onPress={() => this.handleClick()}>
                         <View>
-                          <Text style={styles.text}>Question</Text>
+                          <Text style={styles.text}>Show Question</Text>
                         </View>
                       </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                   )}
                   {/*If user presses correct, count + 1 on the correctAnswers, and go to the next question*/}
                   <TouchableOpacity onPress={() => this.correctAnswers()}>
@@ -224,6 +298,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     textAlign: "center",
+    padding: 10,
+    color: white
+  },
+  score: {
+    fontSize: 25,
+    textAlign: "center",
     padding: 10
   },
   correct: {
@@ -234,7 +314,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     paddingTop: 5,
-    color: teal
+    color: white
   },
   btn: {
     width: btnWidth,
@@ -247,7 +327,8 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 16,
-    textAlign: "center"
+    textAlign: "center",
+    color: teal
   },
   shadow: {
     borderColor: "rgba(0, 128, 128, 0.5)",
@@ -257,7 +338,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-    borderRadius: 2
+    borderRadius: 2,
+    backgroundColor: "teal"
   },
   message: {
     textAlign: "center",
@@ -267,6 +349,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 50,
     marginTop: 10
+  },
+  flipCardBack: {
+    /*backgroundColor: "red",
+    position: "absolute",
+    top: 0*/
+    borderRadius: 2,
+    borderColor: teal,
+    borderWidth: 1,
+    elevation: 2,
+    minHeight: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    backgroundColor: tealLight
   }
 });
 
