@@ -10,7 +10,7 @@ import {
 import { connect } from "react-redux";
 import { addDeck } from "../actions";
 import { width, btnWidth, inputWidth } from "../utils/helpers";
-import { red } from "../utils/colors";
+import { red, teal } from "../utils/colors";
 
 //TODO: test and cleanup
 /*
@@ -24,10 +24,12 @@ const inputWidth = width - 20;
 class NewDeckView extends Component {
   state = {
     text: "",
-    errorMessage: ""
+    errorMessage: "",
+    color: teal
   };
 
-  onInputChange = text => this.setState({ text, errorMessage: "" });
+  onInputChange = text =>
+    this.setState({ text, errorMessage: "", color: teal });
 
   handleSubmit = () => {
     if (this.state.text !== "") {
@@ -40,11 +42,13 @@ class NewDeckView extends Component {
         deck: newDeck[this.state.text]
       });
       this.setState({
-        text: "",
-        errorMessage: ""
+        text: ""
       });
     } else {
-      this.setState({ errorMessage: "Please fill in a title for your deck" });
+      this.setState({
+        errorMessage: "Please fill in a title for your deck",
+        color: red
+      });
     }
   };
 
@@ -56,6 +60,7 @@ class NewDeckView extends Component {
           value={this.state.text}
           placeholder="Deck Title"
           onChangeText={this.onInputChange}
+          underlineColorAndroid={this.state.color}
         />
         <View>
           <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
