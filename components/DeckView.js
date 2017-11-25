@@ -9,12 +9,16 @@ import {
   TouchableOpacity
 } from "react-native";
 import { teal, white, gray } from "../utils/colors";
+import { width, btnWidth } from "../utils/helpers";
 import { getDecks } from "../actions";
 
+//TODO: test and cleanup
+/*
 //Get the screenwidth of the device
 const { width } = Dimensions.get("window");
 //Set the width for the button
 const btnWidth = width - 50;
+*/
 
 class DeckView extends Component {
   componentDidMount() {
@@ -33,13 +37,14 @@ class DeckView extends Component {
       return (
         <View style={styles.container}>
           <Text style={styles.title}>{deck.title}</Text>
-          <Text style={styles.cardCount}>{`${deck.questions
-            .length} cards`}</Text>
+          <Text style={styles.cardCount}>{`${
+            deck.questions.length
+          } cards`}</Text>
 
-          {/*TODO: Add components, and render them onPress*/}
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate("NewQuestionView", { deck })}
+              this.props.navigation.navigate("NewQuestionView", { deck })
+            }
             style={styles.btn}
           >
             <Text style={styles.btnText}>Add Card</Text>
