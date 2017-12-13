@@ -47,6 +47,11 @@ class QuizView extends Component {
     });
   }
 
+  //Remove listening on animation
+  componentWillUnmount() {
+    this.animatedValue.removeAllListeners();
+  }
+
   //Handles changing from question to answer or vica versa.
   handleClick = () => {
     //Use useNativeDriver to improve performance, by moving task to native
