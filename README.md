@@ -8,7 +8,7 @@ take quizzes on those decks.
 This project encompasses the fundamental aspects of building a native
 application including handling infinite lists, routing, and user input.
 
-# Getting Started
+## Getting Started
 
 After downloading the repository please run `npm install` or `yarn install` from
 inside the repository directory.
@@ -18,6 +18,14 @@ Once installed use `npm start` or `yarn start` to launch the project.
 This project was made for Android. You can preview the app using Expo or an
 Android simulator.
 
-# Devices
+## Devices
 
 This app is tested on Android on a Motorola Moto G with Android 5.1.
+
+## Built With
+
+[React Native](https://facebook.github.io/react-native/)
+
+[Redux](https://redux.js.org/docs/introduction/)
+
+[Expo](https://docs.expo.io/versions/latest/index.html)
